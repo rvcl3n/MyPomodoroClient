@@ -1,6 +1,10 @@
 <div class="main-div">
 <mat-card class="timer-card">
-    <p>Time: {{leftTime}}</p>
+<mat-card-content align="center">
+    <p class="timer-text">Time: {{leftTime}}</p>
+</mat-card-content>
+<mat-card-actions align="center">
     <button mat-raised-button (click)="StartTimer()">Start!</button>
+</mat-card-actions>
 </mat-card>
 </div>
