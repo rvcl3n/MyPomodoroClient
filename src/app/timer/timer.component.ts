@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { timer, interval } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { timer, interval, fromEvent, merge, empty, Subject } from 'rxjs';
+import { take, switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-timer',
@@ -10,34 +10,45 @@ import { take } from 'rxjs/operators';
 export class TimerComponent implements OnInit {
 
   clickMessage = '';
-  leftTime = 3;
+  leftTime = 10;
+  startButtonText = "Start";
+  startwithFlag = false;
 
-  constructor() { }
+  pauseButton : HTMLElement;
+  resumeButton : HTMLElement;
+
+  private readonly _start = new Subject<void>();
+
+  constructor() { 
+  }
 
   ngOnInit(): void {
+    this.pauseButton = document.getElementById('pauseButton');
+    this.resumeButton = document.getElementById('startButton');
+
+    const interval$ = interval(1000).pipe(mapTo(-1));
+    const pause$ = fromEvent(this.pauseButton, 'click').pipe(mapTo(false));
+    const resume$ = fromEvent(this.resumeButton, 'click').pipe(mapTo(true));
+
+    const timer$ = merge(pause$, resume$)
+      .pipe(
+      startWith(true),
+      switchMap(val => (val ? interval$ : empty())),
+      scan((acc, curr) => (curr ? curr + acc : acc), this.leftTime),
+      takeWhile(v => v >= 0),
+      tap(v => {if(v===0) this.startButtonText = "Restart"}),
+      repeatWhen(() => this._start)
+    )
+    .subscribe((val: any) => (this.leftTime = val));
   }
 
   StartTimer(): void {
-    const timerMessage = 'Time is up';
-
-    const timerInterval = interval(1000);
-
-    const source = timer(this.leftTime*1000);
-
-    const times = this.leftTime;
-
-    const countDown = timerInterval.pipe(take(times));
-
-    const sub = countDown.subscribe(val =>this.leftTime = times - val-1);
-
-    const subscribe = source.subscribe(() => 
-    {
-      alert(timerMessage);
-      this.leftTime = 3;
+    if(this.leftTime === 0){
+      this._start.next();
+      this.leftTime = 10;
+      this.startwithFlag = true;
     }
-    );
   }
-
 
   ClickButton(): void {
     this.clickMessage += 'Button was clicked';
