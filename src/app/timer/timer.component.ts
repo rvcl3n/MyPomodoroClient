@@ -35,7 +35,7 @@ export class TimerComponent implements OnInit {
       startWith(true),
       switchMap(val => (val ? interval$ : empty())),
       scan((acc, curr) => (curr ? curr + acc : acc), this.leftTime),
-      takeWhile(v => v >= 0),
+      takeWhile(v => v >= 0 && this.startwithFlag===true),
       tap(v => {if(v===0) this.startButtonText = "Restart"}),
       repeatWhen(() => this._start)
     )
@@ -44,10 +44,15 @@ export class TimerComponent implements OnInit {
 
   StartTimer(): void {
     if(this.leftTime === 0){
-      this._start.next();
       this.leftTime = 10;
       this.startwithFlag = true;
+      this._start.next();
     }
+    else if (this.leftTime === 10){
+      this.startwithFlag = true;
+      this._start.next();
+    }
+    
   }
 
   ClickButton(): void {
