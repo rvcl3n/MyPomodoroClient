@@ -27,7 +27,13 @@ export class TimerComponent implements OnInit {
     this.resumeButton = document.getElementById('startButton');
 
     const interval$ = interval(1000).pipe(mapTo(-1));
-    const pause$ = fromEvent(this.pauseButton, 'click').pipe(mapTo(false));
+    const pause$ = fromEvent(this.pauseButton, 'click')
+    .pipe(
+      mapTo(false),
+      tap(v => {
+        this.startButtonText = "Continue";
+      }
+      ));
     const resume$ = fromEvent(this.resumeButton, 'click').pipe(mapTo(true));
 
     const timer$ = merge(pause$, resume$)
