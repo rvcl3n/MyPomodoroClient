@@ -10,6 +10,7 @@ import { Pomodoro } from './../_interfaces/pomodoro.model';
 export class PomodoroListComponent implements OnInit {
   public pomodoros: Pomodoro[];
   public errorMessage: string = '';
+  displayedColumns: string[] = ['id', 'startTime', 'finishTime', 'description'];
 
   constructor(private repository: RepositoryService) {
    }
