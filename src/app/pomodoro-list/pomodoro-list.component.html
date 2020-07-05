@@ -1,0 +1,21 @@
+<p>pomodoro-list works!</p>
+<div class="table-resp">
+    <table class="table tab">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Start Time</th>
+                <th>Finish Time</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor = "let pomodoro of pomodoros">
+                <td>{{pomodoro.id}}</td>
+                <td>{{pomodoro.startTime}}</td>
+                <td>{{pomodoro.finishTime}}</td>
+                <td>{{pomodoro.description}}</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
