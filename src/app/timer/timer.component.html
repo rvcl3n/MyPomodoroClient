@@ -1,7 +1,7 @@
 <div class="main-div">
 <mat-card class="timer-card">
 <mat-card-content align="center">
-    <p class="timer-text">Time: {{leftTime}}</p>
+    <p class="timer-text">Time: {{leftTime | timeConvert }}</p>
 </mat-card-content>
 <mat-card-actions align="center">
     <button mat-raised-button id="startButton" (click)="StartTimer()">{{startButtonText}}</button>

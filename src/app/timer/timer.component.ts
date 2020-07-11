@@ -10,7 +10,7 @@ import { take, switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap } f
 export class TimerComponent implements OnInit {
 
   clickMessage = '';
-  leftTime = 10;
+  leftTime = 1500;
   startButtonText = "Start";
   startwithFlag = false;
 
@@ -54,7 +54,7 @@ export class TimerComponent implements OnInit {
       this.startwithFlag = true;
       this._start.next();
     }
-    else if (this.leftTime === 10){
+    else if (this.leftTime === 1500){
       this.startwithFlag = true;
       this._start.next();
     }
@@ -64,5 +64,7 @@ export class TimerComponent implements OnInit {
   ClickButton(): void {
     this.clickMessage += 'Button was clicked';
   }
+
+
 
 }

@@ -16,12 +16,15 @@ import {MatTableModule} from '@angular/material/table';
 import { MenuComponent } from './menu/menu.component';
 import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
 
+import {TimeConvertPipe} from './shared/time-convertor.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
     TimerComponent,
     MenuComponent,
-    PomodoroListComponent
+    PomodoroListComponent,
+    TimeConvertPipe
   ],
   imports: [
     BrowserModule,
