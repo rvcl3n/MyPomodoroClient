@@ -12,6 +12,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
 
 import { MenuComponent } from './menu/menu.component';
 import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
@@ -39,7 +40,8 @@ import {TimeConvertPipe} from './shared/time-convertor.pipe';
     MatCardModule,
     MatToolbarModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
