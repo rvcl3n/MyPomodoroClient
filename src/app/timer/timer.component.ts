@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { timer, interval, fromEvent, merge, empty, Subject } from 'rxjs';
 import { take, switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap } from 'rxjs/operators';
+import { RepositoryService } from './../shared/services/repository.service';
 
 @Component({
   selector: 'app-timer',
@@ -19,7 +20,7 @@ export class TimerComponent implements OnInit {
 
   private readonly _start = new Subject<void>();
 
-  constructor() { 
+  constructor(private repository: RepositoryService) { 
   }
 
   ngOnInit(): void {
@@ -57,6 +58,20 @@ export class TimerComponent implements OnInit {
     else if (this.leftTime === 1500){
       this.startwithFlag = true;
       this._start.next();
+      const apiUrl = 'api/pomodoro';
+
+      const pomodoro: object = {
+        id: '637a1b1b-022c-4d58-b66b-640804c65625',
+        startTime: "testFinishDate",
+        finishTime: "testFinishDate",
+        description: "TestDescr"
+      }
+
+      this.repository.create(apiUrl,pomodoro).subscribe(res => {
+      },
+      (error => {
+        console.log(error);
+      }));
     }
     
   }
@@ -64,7 +79,4 @@ export class TimerComponent implements OnInit {
   ClickButton(): void {
     this.clickMessage += 'Button was clicked';
   }
-
-
-
 }
