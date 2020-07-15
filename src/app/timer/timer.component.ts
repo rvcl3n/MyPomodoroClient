@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { timer, interval, fromEvent, merge, empty, Subject } from 'rxjs';
 import { take, switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap } from 'rxjs/operators';
 import { RepositoryService } from './../shared/services/repository.service';
+import {PomodoroForCreation} from '../_interfaces/pomodoro-for-creation.model';
 
 @Component({
   selector: 'app-timer',
@@ -14,6 +15,7 @@ export class TimerComponent implements OnInit {
   leftTime = 1500;
   startButtonText = "Start";
   startwithFlag = false;
+  description ='';
 
   pauseButton : HTMLElement;
   resumeButton : HTMLElement;
@@ -51,7 +53,7 @@ export class TimerComponent implements OnInit {
 
   StartTimer(): void {
     if(this.leftTime === 0){
-      this.leftTime = 10;
+      this.leftTime = 1500;
       this.startwithFlag = true;
       this._start.next();
     }
@@ -60,11 +62,9 @@ export class TimerComponent implements OnInit {
       this._start.next();
       const apiUrl = 'api/pomodoro';
 
-      const pomodoro: object = {
-        id: '637a1b1b-022c-4d58-b66b-640804c65625',
-        startTime: "testFinishDate",
-        finishTime: "testFinishDate",
-        description: "TestDescr"
+      const pomodoro: PomodoroForCreation = {
+        startTime: new Date().toString(),
+        description: this.description
       }
 
       this.repository.create(apiUrl,pomodoro).subscribe(res => {
@@ -76,7 +76,12 @@ export class TimerComponent implements OnInit {
     
   }
 
-  ClickButton(): void {
-    this.clickMessage += 'Button was clicked';
+  doTextareaValueChange(ev) {
+    try {
+      this.description = ev.target.value;
+    } catch(e) {
+      console.info('could not set textarea-value');
+    }
   }
+
 }
