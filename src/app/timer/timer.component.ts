@@ -68,6 +68,7 @@ export class TimerComponent implements OnInit {
       }
 
       this.repository.create(apiUrl,pomodoro).subscribe(res => {
+        localStorage.setItem('PomodoroId', res.toString());
       },
       (error => {
         console.log(error);
