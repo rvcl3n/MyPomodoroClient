@@ -7,6 +7,9 @@ import { AppComponent } from './app.component';
 import { TimerComponent } from './timer/timer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
+
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -17,9 +20,9 @@ import {MatMenuModule} from '@angular/material/menu';
 
 import { MenuComponent } from './menu/menu.component';
 import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
+import { LoginComponent } from './login/login.component';
 
 import {TimeConvertPipe} from './shared/time-convertor.pipe';
-import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -36,9 +39,11 @@ import { LoginComponent } from './login/login.component';
     RouterModule.forRoot([
       { path: 'timer', component: TimerComponent },
       { path: 'list', component: PomodoroListComponent },
+      { path: 'login', component: LoginComponent },
       { path: '', redirectTo: '/timer', pathMatch: 'full' }
     ]),
     BrowserAnimationsModule,
+    SocialLoginModule,
     MatButtonModule,
     MatCardModule,
     MatToolbarModule,
@@ -47,7 +52,20 @@ import { LoginComponent } from './login/login.component';
     MatInputModule,
     MatMenuModule
   ],
-  providers: [],
+  providers: [{
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            '109487263740-0dbm3d6n539rsodhtooejgcd0nvlprlm.apps.googleusercontent.com'
+          ),
+        }
+      ],
+    } as SocialAuthServiceConfig,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

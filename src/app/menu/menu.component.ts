@@ -22,5 +22,9 @@ export class MenuComponent implements OnInit {
     if(menuItem === 'List'){
       this.router.navigate(['/list']);
     }
+
+    if(menuItem === 'Login'){
+      this.router.navigate(['/login']);
+    }
 }
 }
