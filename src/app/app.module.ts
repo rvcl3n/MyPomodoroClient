@@ -19,6 +19,7 @@ import { MenuComponent } from './menu/menu.component';
 import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
 
 import {TimeConvertPipe} from './shared/time-convertor.pipe';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {TimeConvertPipe} from './shared/time-convertor.pipe';
     TimerComponent,
     MenuComponent,
     PomodoroListComponent,
-    TimeConvertPipe
+    TimeConvertPipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
