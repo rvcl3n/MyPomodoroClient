@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
 
     this.socioAuthServ.signIn(provider).then((res) => 
     {
-      console.log(res);
+      localStorage.setItem('UserId', res.id);
     })
   }
 

@@ -21,6 +21,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { MenuComponent } from './menu/menu.component';
 import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './helpers/auth.guard';
 
 import {TimeConvertPipe} from './shared/time-convertor.pipe';
 
@@ -37,9 +38,9 @@ import {TimeConvertPipe} from './shared/time-convertor.pipe';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: 'timer', component: TimerComponent },
-      { path: 'list', component: PomodoroListComponent },
-      { path: 'login', component: LoginComponent },
+      { path: 'timer', component: TimerComponent, canActivate: [AuthGuard] },
+      { path: 'list', component: PomodoroListComponent, canActivate: [AuthGuard] },
+      { path: 'login', component: LoginComponent},
       { path: '', redirectTo: '/timer', pathMatch: 'full' }
     ]),
     BrowserAnimationsModule,
@@ -65,7 +66,8 @@ import {TimeConvertPipe} from './shared/time-convertor.pipe';
         }
       ],
     } as SocialAuthServiceConfig,
-  }],
+  },
+  AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
