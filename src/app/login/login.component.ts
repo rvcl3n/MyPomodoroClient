@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SocialAuthService, GoogleLoginProvider }from 'angularx-social-login';
+import { AuthService } from './../shared/services/authentication.service';
+import { RepositoryService } from './../shared/services/repository.service';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +10,7 @@ import { SocialAuthService, GoogleLoginProvider }from 'angularx-social-login';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private socioAuthServ: SocialAuthService) { }
+  constructor(private socioAuthServ: SocialAuthService, private authService: AuthService, private repository: RepositoryService) { }
 
   ngOnInit(): void {
   }
@@ -18,7 +20,7 @@ export class LoginComponent implements OnInit {
 
     this.socioAuthServ.signIn(provider).then((res) => 
     {
-      localStorage.setItem('UserId', res.id);
+      this.authService.login(res.id);
     })
   }
 
