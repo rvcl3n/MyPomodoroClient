@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SocialAuthService, GoogleLoginProvider }from 'angularx-social-login';
 import { AuthService } from './../shared/services/authentication.service';
 import { RepositoryService } from './../shared/services/repository.service';
+import { UserForCreation } from 'src/app/_interfaces/user-for-creation.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,7 @@ import { RepositoryService } from './../shared/services/repository.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private socioAuthServ: SocialAuthService, private authService: AuthService, private repository: RepositoryService) { }
+  constructor(private socioAuthServ: SocialAuthService, private authService: AuthService, private repository: RepositoryService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -20,7 +22,19 @@ export class LoginComponent implements OnInit {
 
     this.socioAuthServ.signIn(provider).then((res) => 
     {
-      this.authService.login(res.id);
+      var user: UserForCreation = {
+        externalId: res.id,
+        firstName: res.firstName,
+        lastName: res.lastName,
+        fullName: res.name,
+        email: res.email
+      };
+      this.authService.login(user)
+      .subscribe(success => {
+        if (success) {
+          this.router.navigate(['/timer']);
+        }
+      });
     })
   }
 

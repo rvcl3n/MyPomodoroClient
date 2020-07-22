@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { UserForCreation } from 'src/app/_interfaces/user-for-creation.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from './../../../environments/environment';
+import { of, Observable } from 'rxjs';
+import { catchError, mapTo, tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -6,10 +11,19 @@ import { Injectable } from '@angular/core';
 
 export class AuthService {
 
-    constructor() {}
+    constructor(private http: HttpClient) {}
     
-    login(id: string){
-        this.setUserId(id);
+    login(user: UserForCreation): Observable<boolean> {
+        debugger;
+        return this.http.post<any>(`${environment.urlAddress}/api/user/login`, user)
+        .pipe(
+            tap(() => this.doLogin(user.externalId)),
+            mapTo(true),
+            catchError(error => {
+                alert(error.error);
+                return of(false);
+        }));
+        debugger;
     }
     
     logout(){
@@ -18,6 +32,11 @@ export class AuthService {
     
     isLoggedIn(): boolean {
         return !!this.getUserId();
+    }
+
+    private doLogin(id: string)
+    {
+        this.setUserId(id);
     }
     
     private getUserId(): string {
