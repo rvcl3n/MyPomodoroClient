@@ -20,7 +20,8 @@ export class PomodoroListComponent implements OnInit {
   }
 
   public getAllPomodoros = () => {
-    let apiAddress: string = "api/pomodoro";
+    const id = localStorage.getItem('UserId');
+    let apiAddress: string = `api/pomodoro/getbyuser/${id}`;
     this.repository.getData(apiAddress)
     .subscribe(res => {
       this.pomodoros = res as Pomodoro[];

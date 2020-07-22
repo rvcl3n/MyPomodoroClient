@@ -45,7 +45,12 @@ export class TimerComponent implements OnInit {
       switchMap(val => (val ? interval$ : empty())),
       scan((acc, curr) => (curr ? curr + acc : acc), this.leftTime),
       takeWhile(v => v >= 0 && this.startwithFlag===true),
-      tap(v => {if(v===0) this.startButtonText = "Restart"}),
+      tap(v => {
+        if(v===0){
+         this.startButtonText = "Restart";
+         this.finishPomodoro();
+        }
+      }),
       repeatWhen(() => this._start)
     )
     .subscribe((val: any) => (this.leftTime = val));
@@ -60,21 +65,47 @@ export class TimerComponent implements OnInit {
     else if (this.leftTime === 1500){
       this.startwithFlag = true;
       this._start.next();
-      const apiUrl = 'api/pomodoro';
 
-      const pomodoro: PomodoroForCreation = {
-        startTime: new Date().toString(),
-        description: this.description
-      }
-
-      this.repository.create(apiUrl,pomodoro).subscribe(res => {
-        localStorage.setItem('PomodoroId', res.toString());
-      },
-      (error => {
-        console.log(error);
-      }));
+      this.createPomodoro();
     }
-    
+  }
+
+  private createPomodoro()
+  {
+    const id = localStorage.getItem('UserId');
+
+    const apiUrl = `api/pomodoro/${id}`;
+
+    const pomodoro: PomodoroForCreation = {
+      startTime: new Date().toString(),
+      description: this.description
+    }
+
+    this.repository.create(apiUrl,pomodoro).subscribe(res => {
+      localStorage.setItem('PomodoroId', res.toString());
+    },
+    (error => {
+      console.log(error);
+    }));
+  }
+
+  private finishPomodoro()
+  {
+    const pomodoroId = localStorage.getItem('PomodoroId');
+
+    const apiUrl = `api/pomodoro/${pomodoroId}`;
+
+    const pomodoro = {
+      finishTime: new Date().toString(),
+      description: this.description
+    }
+
+    this.repository.update(apiUrl,pomodoro).subscribe(res => {
+      localStorage.removeItem('PomodoroId');
+    },
+    (error => {
+      console.log(error);
+    }));
   }
 
   doTextareaValueChange(ev) {
