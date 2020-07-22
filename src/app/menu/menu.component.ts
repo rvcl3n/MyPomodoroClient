@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { AuthService } from '../shared/services/authentication.service';
+import { UserForCreation } from '../_interfaces/user-for-creation.model';
 
 @Component({
   selector: 'app-menu',
@@ -8,9 +10,14 @@ import {Router} from '@angular/router';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  username: string;
+
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.currentUser.subscribe((user: UserForCreation) => {
+      this.username = user.fullName;
+    });
   }
 
   clickMenuItem(menuItem : string){

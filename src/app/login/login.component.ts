@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private socioAuthServ: SocialAuthService, private authService: AuthService, private repository: RepositoryService, private router: Router) { }
+  constructor(private socioAuthServ: SocialAuthService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserForCreation } from 'src/app/_interfaces/user-for-creation.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
-import { of, Observable } from 'rxjs';
+import { of, Observable, Subject } from 'rxjs';
 import { catchError, mapTo, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -11,10 +11,12 @@ import { catchError, mapTo, tap } from 'rxjs/operators';
 
 export class AuthService {
 
+    currentUser: Subject<UserForCreation> = new Subject<UserForCreation>();
+
     constructor(private http: HttpClient) {}
     
     login(user: UserForCreation): Observable<boolean> {
-        debugger;
+        this.currentUser.next(user);
         return this.http.post<any>(`${environment.urlAddress}/api/user/login`, user)
         .pipe(
             tap(() => this.doLogin(user.externalId)),
@@ -23,7 +25,6 @@ export class AuthService {
                 alert(error.error);
                 return of(false);
         }));
-        debugger;
     }
     
     logout(){
