@@ -22,7 +22,7 @@
     <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
       <mat-icon>settings</mat-icon>
     </button>
-    <button mat-icon-button (click)="clickLoginButton()" class="example-icon" aria-label="Example icon-button with share icon">
+    <button mat-icon-button (click)="clickLoginButton()" matTooltip="{{loginTooltip}}" class="example-icon" aria-label="Example icon-button with share icon">
       <mat-icon>{{login}}</mat-icon>
     </button>
   </mat-toolbar>

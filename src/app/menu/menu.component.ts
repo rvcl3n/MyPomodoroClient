@@ -12,6 +12,7 @@ export class MenuComponent implements OnInit {
 
   username: string;
   login: string = 'login';
+  loginTooltip: string = 'Log in';
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -53,8 +54,10 @@ export class MenuComponent implements OnInit {
   private checkIfLoggedIn(loggedin: boolean){
     if(loggedin){
       this.login = 'logout';
+      this.loginTooltip = 'Log out';
     } else {
       this.login = 'login';
+      this.loginTooltip = 'Log in';
     }
   }
 }
