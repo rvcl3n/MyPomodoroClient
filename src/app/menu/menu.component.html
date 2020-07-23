@@ -20,9 +20,9 @@
     <span class="example-spacer"></span>
     <span>{{username}}</span>
     <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
+      <mat-icon>settings</mat-icon>
     </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
+    <button mat-icon-button (click)="clickLoginButton()" class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>{{login}}</mat-icon>
     </button>
   </mat-toolbar>

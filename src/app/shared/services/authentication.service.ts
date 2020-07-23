@@ -12,6 +12,7 @@ import { catchError, mapTo, tap } from 'rxjs/operators';
 export class AuthService {
 
     currentUser: Subject<UserForCreation> = new Subject<UserForCreation>();
+    islogged: Subject<boolean> = new Subject<boolean>();
 
     constructor(private http: HttpClient) {}
     
@@ -29,6 +30,7 @@ export class AuthService {
     
     logout(){
         this.removeUserId();
+        this.islogged.next(false);
     }
     
     isLoggedIn(): boolean {
@@ -38,6 +40,7 @@ export class AuthService {
     private doLogin(id: string)
     {
         this.setUserId(id);
+        this.islogged.next(true);
     }
     
     private getUserId(): string {

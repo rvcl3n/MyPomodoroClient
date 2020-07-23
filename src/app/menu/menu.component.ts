@@ -11,6 +11,7 @@ import { UserForCreation } from '../_interfaces/user-for-creation.model';
 export class MenuComponent implements OnInit {
 
   username: string;
+  login: string = 'login';
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -18,6 +19,11 @@ export class MenuComponent implements OnInit {
     this.authService.currentUser.subscribe((user: UserForCreation) => {
       this.username = user.fullName;
     });
+    this.authService.islogged.subscribe((islogged: boolean) =>{
+      this.checkIfLoggedIn(islogged);
+    });
+    
+    this.checkIfLoggedIn(this.authService.isLoggedIn());
   }
 
   clickMenuItem(menuItem : string){
@@ -33,5 +39,22 @@ export class MenuComponent implements OnInit {
     if(menuItem === 'Login'){
       this.router.navigate(['/login']);
     }
-}
+  }
+
+  clickLoginButton(){
+    if(!this.authService.isLoggedIn()){
+      this.router.navigate(['/login']);
+    } else {
+      this.authService.logout();
+      this.router.navigate(['/login']);
+    }
+  }
+
+  private checkIfLoggedIn(loggedin: boolean){
+    if(loggedin){
+      this.login = 'logout';
+    } else {
+      this.login = 'login';
+    }
+  }
 }
