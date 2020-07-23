@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { AuthService } from '../shared/services/authentication.service';
 import { UserForCreation } from '../_interfaces/user-for-creation.model';
+import { RepositoryService } from '../shared/services/repository.service';
 
 @Component({
   selector: 'app-menu',
@@ -13,8 +14,9 @@ export class MenuComponent implements OnInit {
   username: string;
   login: string = 'login';
   loginTooltip: string = 'Log in';
+  user: UserForCreation;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private repository: RepositoryService) { }
 
   ngOnInit(): void {
     this.authService.currentUser.subscribe((user: UserForCreation) => {
@@ -25,6 +27,11 @@ export class MenuComponent implements OnInit {
     });
     
     this.checkIfLoggedIn(this.authService.isLoggedIn());
+
+    if(this.authService.isLoggedIn() && !this.username)
+    {
+      this.getUser();
+    }
   }
 
   clickMenuItem(menuItem : string){
@@ -59,5 +66,18 @@ export class MenuComponent implements OnInit {
       this.login = 'login';
       this.loginTooltip = 'Log in';
     }
+  }
+
+  private getUser()
+  {
+    const id = localStorage.getItem('UserId');
+    let apiAddress: string = `api/user/external/${id}`;
+    this.repository.getData(apiAddress)
+    .subscribe(res => {
+      this.user = res as UserForCreation;
+      this.username = this.user.fullName;
+    },
+    (error) => {
+    })
   }
 }
