@@ -58,6 +58,10 @@ export class MenuComponent implements OnInit {
     }
   }
 
+  clickTitleItem(){
+    this.router.navigate(['/timer']);
+  }
+
   private checkIfLoggedIn(loggedin: boolean){
     if(loggedin){
       this.login = 'logout';
