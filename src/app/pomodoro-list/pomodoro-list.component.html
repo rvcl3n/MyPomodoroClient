@@ -6,13 +6,13 @@
         </ng-container>
         
         <ng-container matColumnDef="startTime">
-            <mat-header-cell *matHeaderCellDef> StartTime </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.startTime}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.startTime | date:'medium'}} </mat-cell>
         </ng-container>
         
         <ng-container matColumnDef="finishTime">
-            <mat-header-cell *matHeaderCellDef> StartTime </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.finishTime}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef> Finish Time </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.finishTime | date:'medium'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="description">
