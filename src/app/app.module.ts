@@ -22,6 +22,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { MenuComponent } from './menu/menu.component';
 import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
 import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './helpers/auth.guard';
 
 import {TimeConvertPipe} from './shared/time-convertor.pipe';
@@ -33,7 +34,8 @@ import {TimeConvertPipe} from './shared/time-convertor.pipe';
     MenuComponent,
     PomodoroListComponent,
     TimeConvertPipe,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +44,7 @@ import {TimeConvertPipe} from './shared/time-convertor.pipe';
       { path: 'timer', component: TimerComponent, canActivate: [AuthGuard] },
       { path: 'list', component: PomodoroListComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent},
+      { path: 'home', component: HomeComponent},
       { path: '', redirectTo: '/timer', pathMatch: 'full' }
     ]),
     BrowserAnimationsModule,
