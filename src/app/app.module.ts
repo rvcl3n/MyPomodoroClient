@@ -25,7 +25,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './helpers/auth.guard';
 
-import {TimeConvertPipe} from './shared/time-convertor.pipe';
+import { TimeConvertPipe } from './shared/time-convertor.pipe';
 
 @NgModule({
   declarations: [
@@ -72,7 +72,8 @@ import {TimeConvertPipe} from './shared/time-convertor.pipe';
       ],
     } as SocialAuthServiceConfig,
   },
-  AuthGuard],
+  AuthGuard,
+  TimeConvertPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

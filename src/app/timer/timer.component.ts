@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { interval, fromEvent, merge, empty, Subject } from 'rxjs';
 import { switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap } from 'rxjs/operators';
 import { RepositoryService } from './../shared/services/repository.service';
-import {PomodoroForCreation} from '../_interfaces/pomodoro-for-creation.model';
+import { PomodoroForCreation } from '../_interfaces/pomodoro-for-creation.model';
+import { Title } from "@angular/platform-browser";
+import { TimeConvertPipe } from './../shared/time-convertor.pipe';
 
 @Component({
   selector: 'app-timer',
@@ -22,7 +24,8 @@ export class TimerComponent implements OnInit {
 
   private readonly _start = new Subject<void>();
 
-  constructor(private repository: RepositoryService) { 
+  constructor(private repository: RepositoryService, private titleService: Title, private timeConvertPipe: TimeConvertPipe) {
+    this.titleService.setTitle("Pomodoro Timer");
   }
 
   ngOnInit(): void {
@@ -53,7 +56,7 @@ export class TimerComponent implements OnInit {
       }),
       repeatWhen(() => this._start)
     )
-    .subscribe((val: any) => (this.leftTime = val));
+    .subscribe((val: any) => {this.leftTime = val;this.SetTitleValue();});
   }
 
   StartTimer(): void {
@@ -114,6 +117,11 @@ export class TimerComponent implements OnInit {
     } catch(e) {
       console.info('could not set textarea-value');
     }
+  }
+
+  private SetTitleValue(){
+    let titleTime = this.timeConvertPipe.transform(this.leftTime)
+    this.titleService.setTitle(titleTime);
   }
 
 }
