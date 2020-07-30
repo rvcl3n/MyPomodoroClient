@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { timer, interval, fromEvent, merge, empty, Subject } from 'rxjs';
-import { take, switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap } from 'rxjs/operators';
+import { interval, fromEvent, merge, empty, Subject } from 'rxjs';
+import { switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap } from 'rxjs/operators';
 import { RepositoryService } from './../shared/services/repository.service';
 import {PomodoroForCreation} from '../_interfaces/pomodoro-for-creation.model';
 

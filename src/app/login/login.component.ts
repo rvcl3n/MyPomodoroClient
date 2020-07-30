@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SocialAuthService, GoogleLoginProvider }from 'angularx-social-login';
 import { AuthService } from './../shared/services/authentication.service';
-import { RepositoryService } from './../shared/services/repository.service';
 import { UserForCreation } from 'src/app/_interfaces/user-for-creation.model';
 import { Router } from '@angular/router';
 
