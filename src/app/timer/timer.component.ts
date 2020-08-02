@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { interval, fromEvent, merge, empty, Subject, pipe } from 'rxjs';
-import { switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap } from 'rxjs/operators';
+import { switchMap, mapTo, startWith, scan, takeWhile, repeatWhen, tap, map } from 'rxjs/operators';
 import { RepositoryService } from './../shared/services/repository.service';
 import { PomodoroForCreation } from '../_interfaces/pomodoro-for-creation.model';
 import { Pomodoro } from '../_interfaces/pomodoro.model';
@@ -63,6 +63,8 @@ export class TimerComponent implements OnInit {
 
     if(localStorage.getItem('PomodoroId') !== null)
       this.getPomodoro();
+      debugger;
+      this.currentPomodoro;
   }
 
   StartTimer(): void {
@@ -101,25 +103,29 @@ export class TimerComponent implements OnInit {
 
   private getPomodoro()
   {
-    /*const id = localStorage.getItem('PomodoroId');
+    const id = localStorage.getItem('PomodoroId');
 
     const apiUrl = `api/pomodoro/${id}`;
 
-    this.repository.getData(apiUrl).subscribe(res => {
-      this.currentPomodoro = res as Pomodoro;
-
+    this.repository.getData(apiUrl)
+      .subscribe(res => {this.currentPomodoro = res as Pomodoro})
+        /*
       let currnetDateSeconds : number = Math.round(new Date().getTime() / 1000);
       let currentPomodoroStartTime : number = Math.round(new Date(this.currentPomodoro.startTime).getTime() / 1000);
   
       this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);
 
       this.startwithFlag = true;
-      this._start.next();
-    }
-    ,
-    (error => {
-      console.log(error);
-    }));*/
+      this._start.next();*/
+    
+
+      /*let currnetDateSeconds : number = Math.round(new Date().getTime() / 1000);
+      let currentPomodoroStartTime : number = Math.round(new Date(this.currentPomodoro.startTime).getTime() / 1000);
+  
+      this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);*/
+
+      /*this.startwithFlag = true;
+      this._start.next();*/
   };
 
   private finishPomodoro()
