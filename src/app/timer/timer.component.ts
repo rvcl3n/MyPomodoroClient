@@ -20,7 +20,7 @@ export class TimerComponent implements OnInit {
   startwithFlag = false;
   description ='';
 
-  public currentPomodoro : Pomodoro;
+  currentPomodoro : Pomodoro;
 
   pauseButton : HTMLElement;
   resumeButton : HTMLElement;
@@ -41,7 +41,7 @@ export class TimerComponent implements OnInit {
   }
 
   StartTimer(): void {
-    if(this.leftTime === 0){
+    if (this.leftTime === 0){
       this.leftTime = 1500;
       this.startwithFlag = true;
       this._start.next();
@@ -85,9 +85,13 @@ export class TimerComponent implements OnInit {
 
       let currnetDateSeconds : number = Math.round(new Date().getTime() / 1000);
       let currentPomodoroStartTime : number = Math.round(new Date(this.currentPomodoro.startTime).getTime() / 1000);
-  
-      this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);
 
+      if (currnetDateSeconds - currentPomodoroStartTime < this.leftTime)
+      {
+        this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);
+        this.description = this.currentPomodoro.finishTime;
+      }
+        
       this.setupTimer();
          
       this.startwithFlag = true;
