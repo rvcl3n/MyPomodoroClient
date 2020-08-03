@@ -20,7 +20,7 @@ export class TimerComponent implements OnInit {
   startwithFlag = false;
   description ='';
 
-  currentPomodoro : Pomodoro;
+  public currentPomodoro : Pomodoro;
 
   pauseButton : HTMLElement;
   resumeButton : HTMLElement;
@@ -32,39 +32,12 @@ export class TimerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.pauseButton = document.getElementById('pauseButton');
-    this.resumeButton = document.getElementById('startButton');
-
-    const interval$ = interval(1000).pipe(mapTo(-1));
-    const pause$ = fromEvent(this.pauseButton, 'click')
-    .pipe(
-      mapTo(false),
-      tap(v => {
-        this.startButtonText = "Continue";
-      }
-      ));
-    const resume$ = fromEvent(this.resumeButton, 'click').pipe(mapTo(true));
-
-    const timer$ = merge(pause$, resume$)
-      .pipe(
-      startWith(true),
-      switchMap(val => (val ? interval$ : empty())),
-      scan((acc, curr) => (curr ? curr + acc : acc), this.leftTime),
-      takeWhile(v => v >= 0 && this.startwithFlag===true),
-      tap(v => {
-        if(v===0){
-         this.startButtonText = "Restart";
-         this.finishPomodoro();
-        }
-      }),
-      repeatWhen(() => this._start)
-    )
-    .subscribe((val: any) => {this.leftTime = val;this.SetTitleValue();});
+    
 
     if(localStorage.getItem('PomodoroId') !== null)
       this.getPomodoro();
-      debugger;
-      this.currentPomodoro;
+      else
+      this.setupTimer();
   }
 
   StartTimer(): void {
@@ -108,24 +81,18 @@ export class TimerComponent implements OnInit {
     const apiUrl = `api/pomodoro/${id}`;
 
     this.repository.getData(apiUrl)
-      .subscribe(res => {this.currentPomodoro = res as Pomodoro})
-        /*
+      .subscribe(res => {this.currentPomodoro = res as Pomodoro;
+
       let currnetDateSeconds : number = Math.round(new Date().getTime() / 1000);
       let currentPomodoroStartTime : number = Math.round(new Date(this.currentPomodoro.startTime).getTime() / 1000);
   
       this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);
 
+      this.setupTimer();
+         
       this.startwithFlag = true;
-      this._start.next();*/
-    
-
-      /*let currnetDateSeconds : number = Math.round(new Date().getTime() / 1000);
-      let currentPomodoroStartTime : number = Math.round(new Date(this.currentPomodoro.startTime).getTime() / 1000);
-  
-      this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);*/
-
-      /*this.startwithFlag = true;
-      this._start.next();*/
+      this._start.next();
+    });
   };
 
   private finishPomodoro()
@@ -158,6 +125,38 @@ export class TimerComponent implements OnInit {
   private SetTitleValue(){
     let titleTime = this.timeConvertPipe.transform(this.leftTime)
     this.titleService.setTitle(titleTime);
+  }
+
+  private setupTimer()
+  {
+    this.pauseButton = document.getElementById('pauseButton');
+    this.resumeButton = document.getElementById('startButton');
+
+    const interval$ = interval(1000).pipe(mapTo(-1));
+    const pause$ = fromEvent(this.pauseButton, 'click')
+    .pipe(
+      mapTo(false),
+      tap(v => {
+        this.startButtonText = "Continue";
+      }
+      ));
+    const resume$ = fromEvent(this.resumeButton, 'click').pipe(mapTo(true));
+
+    const timer$ = merge(pause$, resume$)
+      .pipe(
+      startWith(true),
+      switchMap(val => (val ? interval$ : empty())),
+      scan((acc, curr) => (curr ? curr + acc : acc), this.leftTime),
+      takeWhile(v => v >= 0 && this.startwithFlag===true),
+      tap(v => {
+        if(v===0){
+         this.startButtonText = "Restart";
+         this.finishPomodoro();
+        }
+      }),
+      repeatWhen(() => this._start)
+    )
+    .subscribe((val: any) => {this.leftTime = val;this.SetTitleValue();});
   }
 
 }
