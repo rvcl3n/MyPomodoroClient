@@ -91,6 +91,9 @@ export class TimerComponent implements OnInit {
         this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);
         this.description = this.currentPomodoro.finishTime;
       }
+      else {
+        localStorage.removeItem('PomodoroId');
+      }
         
       this.setupTimer();
          
