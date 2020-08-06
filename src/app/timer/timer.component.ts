@@ -32,7 +32,6 @@ export class TimerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
 
     if(localStorage.getItem('PomodoroId') !== null)
       this.getPomodoro();
@@ -89,7 +88,7 @@ export class TimerComponent implements OnInit {
       if (currnetDateSeconds - currentPomodoroStartTime < this.leftTime)
       {
         this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);
-        this.description = this.currentPomodoro.finishTime;
+        this.description = this.currentPomodoro.description;
       }
       else {
         localStorage.removeItem('PomodoroId');
@@ -128,6 +127,22 @@ export class TimerComponent implements OnInit {
       console.info('could not set textarea-value');
     }
   }
+
+  updateNote() {
+    const pomodoroId = localStorage.getItem('PomodoroId');
+
+    const apiUrl = `api/pomodoro/${pomodoroId}`;
+
+    const pomodoro = {
+      description: this.description
+    }
+
+    this.repository.update(apiUrl,pomodoro).subscribe(
+    (error => {
+      console.log(error);
+    }));
+  }
+
 
   private SetTitleValue(){
     let titleTime = this.timeConvertPipe.transform(this.leftTime)

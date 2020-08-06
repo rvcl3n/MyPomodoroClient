@@ -5,11 +5,12 @@
 </mat-card-content>
 <mat-card-actions align="center">
     <button mat-raised-button id="startButton" (click)="StartTimer()">{{startButtonText}}</button>
-    <button mat-raised-button id="pauseButton" >Pause</button>
+    <button mat-raised-button id="pauseButton">Pause</button>
 </mat-card-actions>
 <mat-form-field class="example-full-width">
     <mat-label>Note:</mat-label>
     <textarea matInput placeholder="Enter your note here..." (change)="doTextareaValueChange($event)">{{description}}</textarea>
   </mat-form-field>
+  <button mat-raised-button id="updateNoteButton" (click)="updateNote()">Update Note</button>
 </mat-card>
 </div>
