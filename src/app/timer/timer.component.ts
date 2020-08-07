@@ -39,7 +39,7 @@ export class TimerComponent implements OnInit {
       this.setupTimer();
   }
 
-  StartTimer(): void {
+  startTimer(): void {
     if (this.leftTime === 0){
       this.leftTime = 1500;
       this.startwithFlag = true;
