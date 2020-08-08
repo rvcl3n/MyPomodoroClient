@@ -53,8 +53,7 @@ export class TimerComponent implements OnInit {
     }
   }
 
-  private createPomodoro()
-  {
+  private createPomodoro(): void {
     const id = localStorage.getItem('UserId');
 
     const apiUrl = `api/pomodoro/${id}`;
@@ -73,8 +72,7 @@ export class TimerComponent implements OnInit {
     }));
   }
 
-  private getPomodoro()
-  {
+  private getPomodoro(): void {
     const id = localStorage.getItem('PomodoroId');
 
     const apiUrl = `api/pomodoro/${id}`;
@@ -101,8 +99,7 @@ export class TimerComponent implements OnInit {
     });
   };
 
-  private finishPomodoro()
-  {
+  private finishPomodoro(): void {
     const pomodoroId = localStorage.getItem('PomodoroId');
 
     const apiUrl = `api/pomodoro/${pomodoroId}`;
@@ -120,7 +117,7 @@ export class TimerComponent implements OnInit {
     }));
   }
 
-  doTextareaValueChange(ev) {
+  doTextareaValueChange(ev): void {
     try {
       this.description = ev.target.value;
     } catch(e) {
@@ -128,7 +125,7 @@ export class TimerComponent implements OnInit {
     }
   }
 
-  updateNote() {
+  updateNote(): void {
     const pomodoroId = localStorage.getItem('PomodoroId');
 
     const apiUrl = `api/pomodoro/${pomodoroId}`;
@@ -143,14 +140,12 @@ export class TimerComponent implements OnInit {
     }));
   }
 
-
-  private SetTitleValue(){
+  private SetTitleValue(): void {
     let titleTime = this.timeConvertPipe.transform(this.leftTime)
     this.titleService.setTitle(titleTime);
   }
 
-  private setupTimer()
-  {
+  private setupTimer(): void {
     this.pauseButton = document.getElementById('pauseButton');
     this.resumeButton = document.getElementById('startButton');
 
@@ -180,5 +175,4 @@ export class TimerComponent implements OnInit {
     )
     .subscribe((val: any) => {this.leftTime = val;this.SetTitleValue();});
   }
-
 }
