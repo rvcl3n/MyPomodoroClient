@@ -34,7 +34,7 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  clickMenuItem(menuItem : string){
+  clickMenuItem(menuItem : string) : void {
 
     if(menuItem === 'Timer'){
       this.router.navigate(['/timer']);
@@ -49,7 +49,7 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  clickLoginButton(){
+  clickLoginButton() : void {
     if(!this.authService.isLoggedIn()){
       this.router.navigate(['/login']);
     } else {
@@ -62,7 +62,7 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/timer']);
   }
 
-  private checkIfLoggedIn(loggedin: boolean){
+  private checkIfLoggedIn(loggedin: boolean) : void {
     if(loggedin){
       this.login = 'logout';
       this.loginTooltip = 'Log out';
@@ -72,8 +72,7 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  private getUser()
-  {
+  private getUser() : void {
     const id = localStorage.getItem('UserId');
     let apiAddress: string = `api/user/external/${id}`;
     this.repository.getData(apiAddress)
