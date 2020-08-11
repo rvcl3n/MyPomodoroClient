@@ -6,6 +6,7 @@ import { PomodoroForCreation } from '../_interfaces/pomodoro-for-creation.model'
 import { Pomodoro } from '../_interfaces/pomodoro.model';
 import { Title } from "@angular/platform-browser";
 import { TimeConvertPipe } from './../shared/time-convertor.pipe';
+import { ErrorHandlerService } from './../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-timer',
@@ -27,7 +28,7 @@ export class TimerComponent implements OnInit {
 
   private readonly _start = new Subject<void>();
 
-  constructor(private repository: RepositoryService, private titleService: Title, private timeConvertPipe: TimeConvertPipe) {
+  constructor(private repository: RepositoryService, private titleService: Title, private timeConvertPipe: TimeConvertPipe, private errorHandler: ErrorHandlerService) {
     this.titleService.setTitle("Pomodoro Timer");
   }
 
@@ -68,7 +69,7 @@ export class TimerComponent implements OnInit {
       localStorage.setItem('IsPaused', String(false));
     },
     (error => {
-      console.log(error);
+      this.errorHandler.handleError(error);
     }));
   }
 
@@ -78,25 +79,29 @@ export class TimerComponent implements OnInit {
     const apiUrl = `api/pomodoro/${id}`;
 
     this.repository.getData(apiUrl)
-      .subscribe(res => {this.currentPomodoro = res as Pomodoro;
+      .subscribe(res => {
+        this.currentPomodoro = res as Pomodoro;
 
-      let currnetDateSeconds : number = Math.round(new Date().getTime() / 1000);
-      let currentPomodoroStartTime : number = Math.round(new Date(this.currentPomodoro.startTime).getTime() / 1000);
+        let currnetDateSeconds : number = Math.round(new Date().getTime() / 1000);
+        let currentPomodoroStartTime : number = Math.round(new Date(this.currentPomodoro.startTime).getTime() / 1000);
 
-      if (currnetDateSeconds - currentPomodoroStartTime < this.leftTime)
-      {
-        this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);
-        this.description = this.currentPomodoro.description;
-      }
-      else {
-        localStorage.removeItem('PomodoroId');
-      }
+        if (currnetDateSeconds - currentPomodoroStartTime < this.leftTime)
+        {
+          this.leftTime = this.leftTime - (currnetDateSeconds - currentPomodoroStartTime);
+          this.description = this.currentPomodoro.description;
+        }
+        else {
+          localStorage.removeItem('PomodoroId');
+        }
         
-      this.setupTimer();
+        this.setupTimer();
          
-      this.startwithFlag = true;
-      this._start.next();
-    });
+        this.startwithFlag = true;
+        this._start.next();
+      },
+      error => {
+        this.errorHandler.handleError(error);
+      });
   };
 
   private finishPomodoro(): void {
@@ -113,15 +118,15 @@ export class TimerComponent implements OnInit {
       localStorage.removeItem('PomodoroId');
     },
     (error => {
-      console.log(error);
+      this.errorHandler.handleError(error);
     }));
   }
 
   doTextareaValueChange(ev): void {
     try {
       this.description = ev.target.value;
-    } catch(e) {
-      console.info('could not set textarea-value');
+    } catch(error) {
+      this.errorHandler.handleError(error);
     }
   }
 
@@ -134,10 +139,11 @@ export class TimerComponent implements OnInit {
       description: this.description
     }
 
-    this.repository.update(apiUrl,pomodoro).subscribe(
-    (error => {
-      console.log(error);
-    }));
+    this.repository.update(apiUrl,pomodoro).subscribe(res => {},
+    error => {
+      debugger;
+      this.errorHandler.handleError(error);
+    });
   }
 
   private SetTitleValue(): void {
@@ -173,6 +179,9 @@ export class TimerComponent implements OnInit {
       }),
       repeatWhen(() => this._start)
     )
-    .subscribe((val: any) => {this.leftTime = val;this.SetTitleValue();});
+    .subscribe((val: any) => 
+    {this.leftTime = val;this.SetTitleValue();},
+    (error => {this.errorHandler.handleError(error);
+    }));
   }
 }

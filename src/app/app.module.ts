@@ -24,8 +24,11 @@ import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './helpers/auth.guard';
+import { InternalServerComponent } from './error-pages/internal-server/internal-server.component';
+import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 
 import { TimeConvertPipe } from './shared/time-convertor.pipe';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +38,9 @@ import { TimeConvertPipe } from './shared/time-convertor.pipe';
     PomodoroListComponent,
     TimeConvertPipe,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    InternalServerComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +50,8 @@ import { TimeConvertPipe } from './shared/time-convertor.pipe';
       { path: 'list', component: PomodoroListComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent},
       { path: 'home', component: HomeComponent},
+      { path: '404', component: NotFoundComponent},
+      { path: '500', component: InternalServerComponent },
       { path: '', redirectTo: '/timer', pathMatch: 'full' }
     ]),
     BrowserAnimationsModule,
