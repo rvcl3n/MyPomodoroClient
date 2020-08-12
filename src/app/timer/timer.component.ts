@@ -7,6 +7,8 @@ import { Pomodoro } from '../_interfaces/pomodoro.model';
 import { Title } from "@angular/platform-browser";
 import { TimeConvertPipe } from './../shared/time-convertor.pipe';
 import { ErrorHandlerService } from './../shared/services/error-handler.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationDialogComponent } from '../shared/modals/notification-dialog/notification-dialog.component';
 
 @Component({
   selector: 'app-timer',
@@ -28,7 +30,7 @@ export class TimerComponent implements OnInit {
 
   private readonly _start = new Subject<void>();
 
-  constructor(private repository: RepositoryService, private titleService: Title, private timeConvertPipe: TimeConvertPipe, private errorHandler: ErrorHandlerService) {
+  constructor(private repository: RepositoryService, private titleService: Title, private timeConvertPipe: TimeConvertPipe, private errorHandler: ErrorHandlerService,private dialog: MatDialog) {
     this.titleService.setTitle("Pomodoro Timer");
   }
 
@@ -151,6 +153,10 @@ export class TimerComponent implements OnInit {
     this.titleService.setTitle(titleTime);
   }
 
+  private openDialog(): void {
+      this.dialog.open(NotificationDialogComponent);
+  }
+
   private setupTimer(): void {
     this.pauseButton = document.getElementById('pauseButton');
     this.resumeButton = document.getElementById('startButton');
@@ -175,6 +181,7 @@ export class TimerComponent implements OnInit {
         if(v===0){
          this.startButtonText = "Restart";
          this.finishPomodoro();
+         this.openDialog();
         }
       }),
       repeatWhen(() => this._start)

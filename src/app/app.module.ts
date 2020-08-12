@@ -19,6 +19,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSortModule} from '@angular/material/sort';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { MenuComponent } from './menu/menu.component';
 import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
@@ -29,6 +30,7 @@ import { InternalServerComponent } from './error-pages/internal-server/internal-
 import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 
 import { TimeConvertPipe } from './shared/time-convertor.pipe';
+import { NotificationDialogComponent } from './shared/modals/notification-dialog/notification-dialog.component';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { TimeConvertPipe } from './shared/time-convertor.pipe';
     LoginComponent,
     HomeComponent,
     InternalServerComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    NotificationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { TimeConvertPipe } from './shared/time-convertor.pipe';
     MatInputModule,
     MatMenuModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
