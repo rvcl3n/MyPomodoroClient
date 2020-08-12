@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import { AuthService } from '../shared/services/authentication.service';
 import { UserForCreation } from '../_interfaces/user-for-creation.model';
 import { RepositoryService } from '../shared/services/repository.service';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-menu',
@@ -16,7 +17,7 @@ export class MenuComponent implements OnInit {
   loginTooltip: string = 'Log in';
   user: UserForCreation;
 
-  constructor(private router: Router, private authService: AuthService, private repository: RepositoryService) { }
+  constructor(private router: Router, private authService: AuthService, private repository: RepositoryService, private errorHandler: ErrorHandlerService) { }
 
   ngOnInit(): void {
     this.authService.currentUser.subscribe((user: UserForCreation) => {
@@ -80,7 +81,7 @@ export class MenuComponent implements OnInit {
       this.user = res as UserForCreation;
       this.username = this.user.fullName;
     },
-    (error) => {
+    (error) => {this.errorHandler.handleError(error);
     })
   }
 }

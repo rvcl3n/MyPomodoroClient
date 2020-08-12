@@ -3,6 +3,7 @@ import { SocialAuthService, GoogleLoginProvider }from 'angularx-social-login';
 import { AuthService } from './../shared/services/authentication.service';
 import { UserForCreation } from 'src/app/_interfaces/user-for-creation.model';
 import { Router } from '@angular/router';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private socioAuthServ: SocialAuthService, private authService: AuthService, private router: Router) { }
+  constructor(private socioAuthServ: SocialAuthService, private authService: AuthService, private router: Router, private errorHandler: ErrorHandlerService) { }
 
   ngOnInit(): void {
   }
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
         if (success) {
           this.router.navigate(['/timer']);
         }
+      },error => {this.errorHandler.handleError(error);
       });
     })
   }

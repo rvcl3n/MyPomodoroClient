@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from './../shared/services/repository.service';
 import { Pomodoro } from './../_interfaces/pomodoro.model';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-pomodoro-list',
@@ -12,7 +13,7 @@ export class PomodoroListComponent implements OnInit {
   public errorMessage: string = '';
   displayedColumns: string[] = ['id', 'startTime', 'finishTime', 'description'];
 
-  constructor(private repository: RepositoryService) {
+  constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService) {
    }
 
   ngOnInit(): void {
@@ -26,7 +27,7 @@ export class PomodoroListComponent implements OnInit {
     .subscribe(res => {
       this.pomodoros = res as Pomodoro[];
     },
-    (error) => {
+    (error) => {this.errorHandler.handleError(error);
     })
   }
 
