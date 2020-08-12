@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RepositoryService } from './../shared/services/repository.service';
 import { Pomodoro } from './../_interfaces/pomodoro.model';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-pomodoro-list',
@@ -10,14 +12,19 @@ import { ErrorHandlerService } from '../shared/services/error-handler.service';
 })
 export class PomodoroListComponent implements OnInit {
   public pomodoros: Pomodoro[];
+  public dataSource = new MatTableDataSource(this.pomodoros);
   public errorMessage: string = '';
   displayedColumns: string[] = ['id', 'startTime', 'finishTime', 'description'];
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService) {
    }
 
   ngOnInit(): void {
     this.getAllPomodoros();
+
+    
   }
 
   public getAllPomodoros = () => {
@@ -26,8 +33,26 @@ export class PomodoroListComponent implements OnInit {
     this.repository.getData(apiAddress)
     .subscribe(res => {
       this.pomodoros = res as Pomodoro[];
+      this.dataSource = new MatTableDataSource(this.pomodoros);
+      this.dataSource.sort = this.sort;
+
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch (property) {
+          case 'startTime': return new Date(item.startTime);
+          default: return item[property];
+        }
+      };
+
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch (property) {
+          case 'finishTime': return new Date(item.finishTime);
+          default: return item[property];
+        }
+      };
+
+
     },
-    (error) => {this.errorHandler.handleError(error);
+    error => {this.errorHandler.handleError(error);
     })
   }
 

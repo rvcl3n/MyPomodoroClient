@@ -1,22 +1,22 @@
 <div class="main-div">
-    <mat-table [dataSource]="pomodoros" class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
         </ng-container>
         
         <ng-container matColumnDef="startTime">
-            <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Start Time </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.startTime | date:'medium'}} </mat-cell>
         </ng-container>
         
         <ng-container matColumnDef="finishTime">
-            <mat-header-cell *matHeaderCellDef> Finish Time </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Finish Time </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.finishTime | date:'medium'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="description">
-            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
         </ng-container>
 

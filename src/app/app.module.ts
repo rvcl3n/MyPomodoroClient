@@ -18,6 +18,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSortModule} from '@angular/material/sort';
 
 import { MenuComponent } from './menu/menu.component';
 import { PomodoroListComponent } from './pomodoro-list/pomodoro-list.component';
@@ -63,7 +64,8 @@ import { TimeConvertPipe } from './shared/time-convertor.pipe';
     MatTableModule,
     MatInputModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
