@@ -31,6 +31,7 @@ import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 
 import { TimeConvertPipe } from './shared/time-convertor.pipe';
 import { NotificationDialogComponent } from './shared/modals/notification-dialog/notification-dialog.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { NotificationDialogComponent } from './shared/modals/notification-dialog
     MatMenuModule,
     MatTooltipModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule 
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
