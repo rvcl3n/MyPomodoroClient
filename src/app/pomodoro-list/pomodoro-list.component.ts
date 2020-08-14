@@ -29,18 +29,17 @@ export class PomodoroListComponent implements OnInit {
 
   public getAllPomodoros = () => {
     const id = localStorage.getItem('UserId');
+    
     let apiAddress: string = `api/pomodoro/getbyuser/${id}`;
     this.repository.getData(apiAddress)
     .subscribe(res => {
       this.pomodoros = res as Pomodoro[];
       this.dataSource = new MatTableDataSource(this.pomodoros);
 
-      
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       
       this.dataSource.sortingDataAccessor = (item, property) => {
-        debugger;
         switch (property) {
           case 'startTime': return new Date(item.startTime);
           case 'finishTime': return new Date(item.finishTime);
